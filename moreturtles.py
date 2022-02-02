@@ -36,6 +36,7 @@ def mcdonaldsM():
     monkey.forward(50)
     monkey.circle(-50, 180, None)
     frog.circle(50, 180, None)
+    frog.forward(50)
     frog.hideturtle()
     monkey.hideturtle()
 
