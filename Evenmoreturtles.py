@@ -7,7 +7,8 @@ mouse.shapesize(5)
 
 s = mouse.getscreen()
 
-s.bgcolor("brown")
+s.bgcolor("#d6be54")
+
 
 
 def mouseUp():
