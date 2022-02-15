@@ -1,4 +1,5 @@
 
+from random import randint
 from turtle import Turtle, setup
 width, height = 500, 400
 
@@ -10,14 +11,38 @@ rectT = Turtle()
 mouse.penup()
 mouse.speed(1)
 mouse.shapesize(3)
+score = 0
 
 
 def drawCheese():
-    cheeseDrawMan.hideturtle()
+    cheeseDrawMan.pensize(3)
+    cheeseDrawMan.color("black", "#ffe817")
+    cheeseDrawMan.pendown()
+    cheeseDrawMan.seth(270)
+    cheeseDrawMan.fd(30)
+    cheeseDrawMan.right(135)
+    cheeseDrawMan.begin_fill()
+    cheeseDrawMan.fd(30)
+    cheeseDrawMan.bk(30)
+    cheeseDrawMan.right(45)
+    cheeseDrawMan.fd(30)
+    cheeseDrawMan.left(90)
+    cheeseDrawMan.circle(30, 45, None)
+    cheeseDrawMan.end_fill()
+    cheeseDrawMan.left(90)
+    cheeseDrawMan.forward(30)
+    cheeseDrawMan.shapesize(3)
 
 
 def cheeseGeneration():
-    print("hey future leo do the code haha suffer")
+    global x, y
+    x = randint(-width, width)
+    y = randint(-height, height)
+    cheeseDrawMan.hideturtle()
+    cheeseDrawMan.speed(10000)
+    cheeseDrawMan.penup()
+    cheeseDrawMan.goto(x, y)
+    drawCheese()
 cheeseGeneration()
 
 
@@ -27,7 +52,7 @@ s = mouse.getscreen()
 s.screensize(448, 252)
 s.title("kitchen")
 
-s.bgcolor("#d6be54")
+s.bgcolor("#a65837")
 Upok = True
 distance = 10
 
@@ -85,8 +110,12 @@ s.onkeypress(mouseRight, "Right")
 s.onkeypress(mouseLeft, "Left")
 s.onkeypress(mouseDown, "Down")
 
+collisionDistance = 25
 
 while True:
+
+   
+
     allowedForward = True
     # if (mouse.ycor() < height and
     #     mouse.ycor() > -height and
@@ -103,6 +132,12 @@ while True:
 
     if allowedForward:
         mouse.forward(distance)
+
+    if abs(x-mouse.xcor()) < collisionDistance and abs(y-mouse.ycor()) < collisionDistance:
+        score = score + 1
+        print("your score is", score)
+        cheeseDrawMan.clear()
+        cheeseGeneration()
 
     s.update()
 
