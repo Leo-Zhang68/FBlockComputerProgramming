@@ -1,17 +1,37 @@
 
 from random import randint
 from turtle import Turtle, setup
+
 width, height = 500, 400
-
-setup(1400, 1000)
-
 mouse = Turtle()
+setup(1400, 1000)
+s = mouse.getscreen()
+
+
 cheeseDrawMan = Turtle()
 rectT = Turtle()
 mouse.penup()
 mouse.speed(1)
-mouse.shapesize(3)
+mouse.shapesize(10)
+scoreMan = Turtle()
 score = 0
+scoreMan.pensize(3)
+
+s.register_shape("mouseUp.gif")
+s.register_shape("mouseDown.gif")
+s.register_shape("mouseLeft.gif")
+s.register_shape("mouseRight.gif")
+
+mouse.shape("mouseUp.gif")
+
+
+
+def writeScore():
+    scoreMan.hideturtle()
+    scoreMan.penup()
+    scoreMan.setposition(0, height-100)
+    scoreMan.write(score, False, "center", ("Arial", 50, "bold"))
+writeScore()
 
 
 def drawCheese():
@@ -41,14 +61,14 @@ def cheeseGeneration():
     cheeseDrawMan.hideturtle()
     cheeseDrawMan.speed(10000)
     cheeseDrawMan.penup()
-    cheeseDrawMan.goto(x, y)
+    cheeseDrawMan.setpos(x, y)
     drawCheese()
 cheeseGeneration()
 
 
 
 
-s = mouse.getscreen()
+
 s.screensize(448, 252)
 s.title("kitchen")
 
@@ -58,13 +78,15 @@ distance = 10
 
 def mouseUp():
    
-    mouse.speed(50)
+    mouse.speed(1000)
     mouse.setheading(90)
     mouse.speed(1)
+    
+    
 
 def mouseRight():
 
-    mouse.speed(50)  
+    mouse.speed(1000)  
     mouse.setheading(0)
     mouse.speed(1)
     
@@ -110,12 +132,12 @@ s.onkeypress(mouseRight, "Right")
 s.onkeypress(mouseLeft, "Left")
 s.onkeypress(mouseDown, "Down")
 
-collisionDistance = 25
+collisionDistance = 40
 
 while True:
 
    
-
+    resetScore = False
     allowedForward = True
     # if (mouse.ycor() < height and
     #     mouse.ycor() > -height and
@@ -133,11 +155,20 @@ while True:
     if allowedForward:
         mouse.forward(distance)
 
-    if abs(x-mouse.xcor()) < collisionDistance and abs(y-mouse.ycor()) < collisionDistance:
+
+    mouthX = mouse.xcor() - 25
+    mouthY = mouse.ycor() + 50
+
+    if abs(x-mouthX) < collisionDistance and abs(y-mouthY) < collisionDistance:
         score = score + 1
         print("your score is", score)
+        resetScore = True
         cheeseDrawMan.clear()
         cheeseGeneration()
+    if resetScore == True:
+        scoreMan.clear()
+        writeScore()
+
 
     s.update()
 
