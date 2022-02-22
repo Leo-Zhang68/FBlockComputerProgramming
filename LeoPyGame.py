@@ -1,5 +1,6 @@
 
 from random import randint
+import re
 from turtle import Turtle, setup
 
 width, height = 500, 400
@@ -7,22 +8,23 @@ mouse = Turtle()
 setup(1400, 1000)
 s = mouse.getscreen()
 
-
+speed = 1.1
+cheeseDrawMan2 = Turtle()
 cheeseDrawMan = Turtle()
 rectT = Turtle()
 mouse.penup()
-mouse.speed(1)
+mouse.speed(speed)
 mouse.shapesize(10)
 scoreMan = Turtle()
 score = 0
 scoreMan.pensize(3)
 
-s.register_shape("mouseUp.gif")
-s.register_shape("mouseDown.gif")
-s.register_shape("mouseLeft.gif")
-s.register_shape("mouseRight.gif")
+s.register_shape("Mouse.gif")
+s.register_shape("MouseDown.gif")
+s.register_shape("MouseLeft.gif")
+s.register_shape("MouseRight.gif")
 
-mouse.shape("mouseUp.gif")
+mouse.shape("Mouse.gif")
 
 
 
@@ -52,18 +54,61 @@ def drawCheese():
     cheeseDrawMan.left(90)
     cheeseDrawMan.forward(30)
     cheeseDrawMan.shapesize(3)
+def drawCheese2():
+    cheeseDrawMan2.pensize(3)
+    cheeseDrawMan2.color("black", "#ffe817")
+    cheeseDrawMan2.pendown()
+    cheeseDrawMan2.seth(270)
+    cheeseDrawMan2.fd(30)
+    cheeseDrawMan2.right(135)
+    cheeseDrawMan2.begin_fill()
+    cheeseDrawMan2.fd(30)
+    cheeseDrawMan2.bk(30)
+    cheeseDrawMan2.right(45)
+    cheeseDrawMan2.fd(30)
+    cheeseDrawMan2.left(90)
+    cheeseDrawMan2.circle(30, 45, None)
+    cheeseDrawMan2.end_fill()
+    cheeseDrawMan2.left(90)
+    cheeseDrawMan2.forward(30)
+    cheeseDrawMan2.shapesize(3)
 
 
-def cheeseGeneration():
-    global x, y
+def cheeseGenerationStart():
+    global x, y, a, b
     x = randint(-width, width)
     y = randint(-height, height)
+    a = randint(-width, width)
+    b = randint(-height, height)
     cheeseDrawMan.hideturtle()
     cheeseDrawMan.speed(10000)
     cheeseDrawMan.penup()
     cheeseDrawMan.setpos(x, y)
     drawCheese()
-cheeseGeneration()
+    cheeseDrawMan2.hideturtle()
+    cheeseDrawMan2.speed(10000)
+    cheeseDrawMan2.penup()
+    cheeseDrawMan2.setpos(a, b)
+    drawCheese2()
+cheeseGenerationStart()
+
+def cheeseGenerationReset1():
+    global x, y
+    x = randint(-width, width)
+    y = randint(-height, height)
+    cheeseDrawMan.penup()
+    cheeseDrawMan.setpos(x, y)
+    drawCheese()
+def cheeseGenerationReset2():
+    global a, b
+    a = randint(-width, width)
+    b = randint(-height, height)
+    cheeseDrawMan2.hideturtle()
+    cheeseDrawMan2.speed(10000)
+    cheeseDrawMan2.penup()
+    cheeseDrawMan2.setpos(a, b)
+    drawCheese2()
+
 
 
 
@@ -72,12 +117,13 @@ cheeseGeneration()
 s.screensize(448, 252)
 s.title("kitchen")
 
-s.bgcolor("#a65837")
+s.bgpic("floor.gif")
 Upok = True
 distance = 10
 
 def mouseUp():
    
+    mouse.shape("Mouse.gif")
     mouse.speed(1000)
     mouse.setheading(90)
     mouse.speed(1)
@@ -86,13 +132,14 @@ def mouseUp():
 
 def mouseRight():
 
+    mouse.shape("MouseRight.gif")
     mouse.speed(1000)  
     mouse.setheading(0)
     mouse.speed(1)
     
 
 def mouseLeft():
-
+    mouse.shape("MouseLeft.gif")
     mouse.speed(1000)
     mouse.setheading(180)
     mouse.speed(1)
@@ -100,12 +147,15 @@ def mouseLeft():
 
 def mouseDown():
 
+    mouse.shape("MouseDown.gif")
     mouse.speed(1000)
     mouse.setheading(270)
     mouse.speed(1)
     
 
 def makeBoundary():
+    rectT.color("black")
+    rectT.width(5)
     rectT.speed(100)
     rectT.penup()
     rectT.forward(width)
@@ -134,6 +184,7 @@ s.onkeypress(mouseDown, "Down")
 
 collisionDistance = 40
 
+
 while True:
 
    
@@ -156,15 +207,21 @@ while True:
         mouse.forward(distance)
 
 
-    mouthX = mouse.xcor() - 25
-    mouthY = mouse.ycor() + 50
+    mouthX = mouse.xcor() - 0
+    mouthY = mouse.ycor() + 0
 
     if abs(x-mouthX) < collisionDistance and abs(y-mouthY) < collisionDistance:
         score = score + 1
         print("your score is", score)
         resetScore = True
         cheeseDrawMan.clear()
-        cheeseGeneration()
+        cheeseGenerationReset1()
+    if abs(a-mouthX) < collisionDistance and abs(b-mouthY) < collisionDistance:
+        score = score + 1
+        print("your score is", score)
+        resetScore = True
+        cheeseDrawMan2.clear()
+        cheeseGenerationReset2()
     if resetScore == True:
         scoreMan.clear()
         writeScore()
