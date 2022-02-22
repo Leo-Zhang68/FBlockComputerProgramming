@@ -1,6 +1,5 @@
-from calendar import c
-from turtle import Turtle
 
+from turtle import Turtle
 
 monkey = Turtle()
 frog = Turtle()
@@ -8,9 +7,9 @@ frog = Turtle()
 
 
 s = monkey.getscreen()
-monkey.color("#ffe600", "orange")
-frog.color("#ffe600", "green")
-s.bgcolor("#f27cdb")
+monkey.color("#ffe659", "orange")
+frog.color("#ffe659", "green")
+s.bgcolor("#ff8ae4")
 
 
 
@@ -36,7 +35,7 @@ def mcdonaldsM():
     monkey.forward(50)
     monkey.circle(-50, 180, None)
     frog.circle(50, 180, None)
-    frog.forward(50)
+    frog.forward(35)
     frog.hideturtle()
     monkey.hideturtle()
 
